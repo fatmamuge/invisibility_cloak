@@ -1,4 +1,4 @@
-# 🎨 GSB Photoshop - Görüntü İşleme Stüdyosu & Görünmezlik Pelerini
+# 🎨  Photoshop - Görüntü İşleme Stüdyosu & Görünmezlik Pelerini
 
 PyQt5 ve OpenCV kullanılarak geliştirilmiş, gelişmiş özelliklere sahip bir masaüstü görüntü işleme ve kamera efektleri uygulamasıdır. Klasik fotoğraf düzenleme araçlarının yanı sıra, gerçek zamanlı çalışan özel bir "Harry Potter Görünmezlik Pelerini" efektine sahiptir.
 
