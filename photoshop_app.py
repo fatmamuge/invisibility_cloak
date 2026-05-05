@@ -249,7 +249,7 @@ class ToolPanel(QWidget):
         self.cloak_status.setAlignment(Qt.AlignCenter)
 
         # Renk göstergesi
-        self.cloak_color_label = QLabel("🎨 Mont rengi: Henüz seçilmedi")
+        self.cloak_color_label = QLabel("🎨 Cisim rengi: Henüz seçilmedi")
         self.cloak_color_label.setStyleSheet(
             "color: #8b949e; font-weight: bold; font-size: 12px; "
             "padding: 4px; border: 2px dashed #30363d; border-radius: 4px;")
@@ -276,8 +276,8 @@ class ToolPanel(QWidget):
             "QPushButton:hover { background-color: #1f6feb; }")
         btn_save_bg.clicked.connect(lambda: self.app.save_cloak_background())
 
-        # Adım 3: Mont rengini yakala (görüntüye tıkla)
-        btn_pick_from_cam = QPushButton("3️⃣  🎨 Mont Rengini Yakala\n(Görüntüye tıklayın)")
+        # Adım 3: Cisim rengini yakala (görüntüye tıkla)
+        btn_pick_from_cam = QPushButton("3️⃣  🎨 Cisimin Rengini Yakala\n(Görüntüye tıklayın)")
         btn_pick_from_cam.setStyleSheet(
             "QPushButton { background-color: #4a1a4a; border-color: #a855f7; font-size: 13px; padding: 10px; }"
             "QPushButton:hover { background-color: #a855f7; }")
@@ -315,8 +315,8 @@ class ToolPanel(QWidget):
             "Adımlar:\n"
             "1. Kamerayı açın\n"
             "2. (Sadece Sabit Modda) Sahneyi boş bırakıp arka planı kaydedin\n"
-            "3. Montu gösterip rengini yakalayın\n"
-            "4. Efekti başlatın — mont görünmez olacak!\n"
+            "3. Cisimi gösterip rengini yakalayın\n"
+            "4. Efekti başlatın — cisim görünmez olacak!\n"
             "\n💡 İpucu: Sabit mod en iyi sonucu verir!")
         cam_info.setStyleSheet("color: #8b949e; font-size: 11px; padding: 6px;")
         cam_info.setWordWrap(True)
@@ -331,7 +331,7 @@ class ToolPanel(QWidget):
     def _pick_cloak_color(self):
         """Renk seçici dialog açar."""
         cur = QColor(self.cloak_color[2], self.cloak_color[1], self.cloak_color[0])
-        color = QColorDialog.getColor(cur, self, "Mont Rengini Seçin")
+        color = QColorDialog.getColor(cur, self, "Cisim Rengini Seçin")
         if color.isValid():
             r, g, b = color.red(), color.green(), color.blue()
             self.cloak_color = [b, g, r]  # BGR
@@ -339,7 +339,7 @@ class ToolPanel(QWidget):
 
     def _update_color_display(self, r, g, b):
         hex_color = f"#{r:02x}{g:02x}{b:02x}"
-        self.cloak_color_label.setText(f"🎨 Mont rengi: R={r} G={g} B={b}")
+        self.cloak_color_label.setText(f"🎨 Cisim rengi: R={r} G={g} B={b}")
         self.cloak_color_label.setStyleSheet(
             f"color: {hex_color}; font-weight: bold; font-size: 12px; "
             f"padding: 4px; border: 2px solid {hex_color}; border-radius: 4px; "
@@ -685,21 +685,21 @@ class PhotoshopApp(QMainWindow):
                 np.array(frames), axis=0).astype(np.uint8)
             self.tool_panel.update_status("✅ Arka plan kaydedildi!", "#2ea043")
             self.statusBar().showMessage(
-                "✅ Arka plan kaydedildi! Şimdi Adım 3: Montu gösterip rengini yakalayın.")
+                "✅ Arka plan kaydedildi! Şimdi Adım 3: Cisimi gösterip rengini yakalayın.")
         else:
             QMessageBox.warning(self, "Hata", "Arka plan kaydedilemedi!")
 
     def enable_color_pick_mode(self):
-        """Adım 3: Kullanıcı görüntüye tıklayarak mont rengini seçer."""
+        """Adım 3: Kullanıcı görüntüye tıklayarak cisim rengini seçer."""
         if self.camera is None:
             QMessageBox.warning(self, "Uyarı", "Önce kamerayı açın! (Adım 1)")
             return
         self.cloak_picking_color = True
         self.canvas.color_pick_callback = self._on_color_picked
         self.tool_panel.update_status(
-            "🎯 MONTUN ÜZERİNE TIKLAYIN!", "#a855f7")
+            "🎯 CISIMIN ÜZERİNE TIKLAYIN!", "#a855f7")
         self.statusBar().showMessage(
-            "🎯 Montu kameranın önünde tutun ve MONTun üzerine tıklayın!")
+            "🎯 Cisimi kameranın önünde tutun ve CISIMin üzerine tıklayın!")
 
     def _on_color_picked(self, bgr):
         """Kullanıcı görüntüye tıkladığında çağrılır."""
@@ -711,7 +711,7 @@ class PhotoshopApp(QMainWindow):
         self.tool_panel.update_status(
             f"🎨 Renk yakalandı! R={r} G={g} B={b}", "#a855f7")
         self.statusBar().showMessage(
-            f"✅ Mont rengi yakalandı! Şimdi Adım 4: Efekti başlatın.")
+            f"✅ Cisim rengi yakalandı! Şimdi Adım 4: Efekti başlatın.")
 
     def start_cloak_effect(self):
         """Adım 4: Görünmezlik efektini aktif eder."""
@@ -730,7 +730,7 @@ class PhotoshopApp(QMainWindow):
         self.tool_panel.update_status(
             "🧙 GÖRÜNMEZLIK AKTİF!", "#f59e0b")
         self.statusBar().showMessage(
-            "🧙 Görünmezlik Pelerini aktif! Montu kameranın önüne getirin!")
+            "🧙 Görünmezlik Pelerini aktif! Cismi kameranın önüne getirin!")
 
     def toggle_mask_debug(self, checked):
         """Maske debug görünümünü açar/kapar."""
@@ -802,7 +802,7 @@ class PhotoshopApp(QMainWindow):
             display = frame.copy()
             if self.cloak_picking_color:
                 # Renk seçim modunda: hedef işareti göster
-                cv2.putText(display, "MONTUN UZERINE TIKLAYIN",
+                cv2.putText(display, "CISMIN UZERINE TIKLAYIN",
                            (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 255), 2)
                 cv2.rectangle(display, (3, 3),
                              (frame.shape[1]-3, frame.shape[0]-3), (255, 0, 255), 3)
